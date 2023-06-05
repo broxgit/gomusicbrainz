@@ -28,8 +28,7 @@ Package gomusicbrainz implements a MusicBrainz WS2 client library.
 
 MusicBrainz WS2 (Version 2 of the XML Web Service) supports three different requests:
 
-
-Search requests
+# Search requests
 
 With search requests you can search MusicBrainz´ database for all entities.
 GoMusicBrainz implements one search method for every search request in the form:
@@ -43,8 +42,7 @@ for more details on the lucene syntax. limit defines how many entries should be
 returned (1-100, default 25). offset is used for paging through more than one
 page of results. To ignore limit and/or offset, set it to -1.
 
-
-Lookup requests
+# Lookup requests
 
 You can perform a lookup of an entity when you have the MBID for that entity.
 GoMusicBrainz provides two ways to perform lookup requests: Either the specific
@@ -63,11 +61,9 @@ relationships. see
 http://musicbrainz.org/doc/Development/XML_Web_Service/Version_2#inc.3D_arguments_which_affect_subqueries
 Not all of them are supported yet.
 
-
-Browse requets
+# Browse requets
 
 not supported yet.
-
 */
 package gomusicbrainz
 
@@ -75,6 +71,7 @@ import (
 	"encoding/xml"
 	"errors"
 	"fmt"
+	"io"
 	"net/http"
 	"net/url"
 	"path"
@@ -147,9 +144,17 @@ func (c *WS2Client) getRequest(data interface{}, params url.Values, endpoint str
 	}
 	defer resp.Body.Close()
 
-	decoder := xml.NewDecoder(resp.Body)
+	urlStuff := req.URL.String()
+	fmt.Println(urlStuff)
 
-	if err = decoder.Decode(data); err != nil {
+	xmlData, err := io.ReadAll(resp.Body)
+	if err != nil {
+		fmt.Println(xmlData)
+	}
+
+	//decoder := xml.NewDecoder(resp.Body)
+
+	if err = xml.Unmarshal(xmlData, data); err != nil {
 		return err
 	}
 	return nil
@@ -166,9 +171,32 @@ func intParamToString(i int) string {
 func (c *WS2Client) searchRequest(endpoint string, result interface{}, searchTerm string, limit, offset int) error {
 
 	params := url.Values{
-		"query":  {searchTerm},
+		//"query":  {searchTerm},
 		"limit":  {intParamToString(limit)},
 		"offset": {intParamToString(offset)},
+	}
+
+	searchParts := strings.Split(searchTerm, "&")
+
+	paramsExist := false
+
+outer:
+	for _, p := range searchParts {
+		tokens := []string{"=", ":"}
+		for _, t := range tokens {
+			if strings.Contains(p, t) {
+				paramParts := strings.Split(p, t)
+				if len(paramParts) == 2 {
+					paramsExist = true
+					params.Add(paramParts[0], paramParts[1])
+					continue outer
+				}
+			}
+		}
+	}
+
+	if !paramsExist {
+		params.Add("query", searchTerm)
 	}
 
 	if err := c.getRequest(result, params, endpoint); err != nil {

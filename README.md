@@ -1,4 +1,4 @@
-# gomusicbrainz [![License MIT](http://img.shields.io/badge/License-MIT-lightgrey.svg?style=flat-square)](http://opensource.org/licenses/MIT) [![GoDoc](http://img.shields.io/badge/api-Godoc-blue.svg?style=flat-square)](https://godoc.org/github.com/michiwend/gomusicbrainz) [![GoWalker](http://img.shields.io/badge/api-GoWalker-green.svg?style=flat-square)](https://gowalker.org/github.com/michiwend/gomusicbrainz) [![Build Status](http://img.shields.io/travis/michiwend/gomusicbrainz.svg?style=flat-square)](https://travis-ci.org/michiwend/gomusicbrainz) 
+# gomusicbrainz [![License MIT](http://img.shields.io/badge/License-MIT-lightgrey.svg?style=flat-square)](http://opensource.org/licenses/MIT) [![GoDoc](http://img.shields.io/badge/api-Godoc-blue.svg?style=flat-square)](https://godoc.org/github.com/broxgit/gomusicbrainz) [![GoWalker](http://img.shields.io/badge/api-GoWalker-green.svg?style=flat-square)](https://gowalker.org/github.com/broxgit/gomusicbrainz) [![Build Status](http://img.shields.io/travis/michiwend/gomusicbrainz.svg?style=flat-square)](https://travis-ci.org/michiwend/gomusicbrainz) 
 
 a Go (Golang) MusicBrainz WS2 client library - a work in progress.
 
@@ -9,7 +9,7 @@ Currently GoMusicBrainz provides methods to perform search and lookup requests. 
 
 ## Installation
 ```bash
-$ go get github.com/michiwend/gomusicbrainz
+$ go get github.com/broxgit/gomusicbrainz
 ```
 
 ## Search Requests
@@ -33,7 +33,7 @@ client := gomusicbrainz.NewWS2Client(
     "https://musicbrainz.org/ws/2",
     "A GoMusicBrainz example",
     "0.0.1-beta",
-    "http://github.com/michiwend/gomusicbrainz")
+    "http://github.com/broxgit/gomusicbrainz")
 
 // Search for some artist(s)
 resp, _ := client.SearchArtist(`artist:"Parov Stelar"`, -1, -1)
@@ -73,7 +73,7 @@ client, _ := gomusicbrainz.NewWS2Client(
     "https://musicbrainz.org/ws/2",
     "A GoMusicBrainz example",
     "0.0.1-beta",
-    "http://github.com/michiwend/gomusicbrainz")
+    "http://github.com/broxgit/gomusicbrainz")
 
 // Lookup artist by id.
 artist, err := client.LookupArtist("9a709693-b4f8-4da9-8cc1-038c911a61be")
@@ -88,5 +88,5 @@ fmt.Printf("%+v", artist)
 
 ## Package Documentation
 Full documentation for this package can be found at
-[GoDoc](https://godoc.org/github.com/michiwend/gomusicbrainz)
-and  [GoWalker](https://gowalker.org/github.com/michiwend/gomusicbrainz)
+[GoDoc](https://godoc.org/github.com/broxgit/gomusicbrainz)
+and  [GoWalker](https://gowalker.org/github.com/broxgit/gomusicbrainz)

@@ -143,6 +143,10 @@ type Medium struct {
 	Tracks []*Track `xml:"track-list>track"`
 }
 
+type SecondaryListType struct {
+	SecondaryType string `xml:"secondary-type"`
+}
+
 // Track represents a recording on a particular release (or, more exactly, on
 // a particular medium). See https://musicbrainz.org/doc/Track
 type Track struct {
