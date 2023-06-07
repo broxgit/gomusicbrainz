@@ -98,7 +98,6 @@ func (c *WS2Client) LookupLabel(id MBID, inc ...string) (*Label, error) {
 // fields. For more information visit
 // https://musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Label
 func (c *WS2Client) SearchLabel(searchTerm string, limit, offset int) (*LabelSearchResponse, error) {
-
 	result := labelListResult{}
 	err := c.searchRequest("/label", &result, searchTerm, limit, offset)
 

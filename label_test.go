@@ -32,7 +32,6 @@ import (
 )
 
 func TestSearchLabel(t *testing.T) {
-
 	want := LabelSearchResponse{
 		WS2ListResponse: WS2ListResponse{
 			Count:  1,

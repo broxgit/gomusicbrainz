@@ -92,7 +92,6 @@ func (c *WS2Client) LookupReleaseGroup(id MBID, inc ...string) (*ReleaseGroup, e
 // more information visit
 // https://musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Release_Group
 func (c *WS2Client) SearchReleaseGroup(searchTerm string, limit, offset int) (*ReleaseGroupSearchResponse, error) {
-
 	result := releaseGroupListResult{}
 	err := c.searchRequest("/release-group", &result, searchTerm, limit, offset)
 

@@ -43,7 +43,7 @@ var (
 	client *WS2Client
 )
 
-// Init multiplexer and httptest server
+// Init multiplexer and httptest server.
 func setupHTTPTesting() {
 	mux = http.NewServeMux()
 	server = httptest.NewServer(mux)
@@ -60,9 +60,8 @@ func setupHTTPTesting() {
 }
 
 // serveTestFile responses to the http client with content of a test file
-// located in ./testdata
+// located in ./testdata.
 func serveTestFile(endpoint string, testfile string, t *testing.T) {
-
 	t.Log("Handling endpoint", endpoint)
 	t.Log("Serving test file", testfile)
 
@@ -73,9 +72,8 @@ func serveTestFile(endpoint string, testfile string, t *testing.T) {
 	})
 }
 
-// pretty prints a diff
+// pretty prints a diff.
 func requestDiff(want, returned interface{}) string {
-
 	out := "\n"
 
 	for _, diff := range pretty.Diff(want, returned) {

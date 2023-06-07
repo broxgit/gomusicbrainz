@@ -113,7 +113,6 @@ func (c *WS2Client) LookupRelease(id MBID, inc ...string) (*Release, error) {
 // more information visit
 // https://musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Release
 func (c *WS2Client) SearchRelease(searchTerm string, limit, offset int) (*ReleaseSearchResponse, error) {
-
 	result := releaseListResult{}
 	err := c.searchRequest("/release", &result, searchTerm, limit, offset)
 
@@ -151,29 +150,22 @@ func (r *ReleaseSearchResponse) ResultsWithScore(score int) []*Release {
 // a release array with the most accurate date. It can be used to determine
 // the original/first release from releases of a release group.
 func OriginalRelease(releases []*Release) *Release {
-
 	if len(releases) == 0 {
 		return nil
 	}
 	original := releases[0] // fall back on the first item
 
 	for _, release := range releases {
-
 		if !release.Date.IsZero() {
-
 			if release.Date.Year() < original.Date.Year() || original.Date.IsZero() {
 				original = release
 			} else if release.Date.Year() == original.Date.Year() &&
 				release.Date.Accuracy > Year {
-
 				if original.Date.Accuracy == Year ||
 					release.Date.Month() < original.Date.Month() {
-
 					original = release
-
 				} else if release.Date.Month() == original.Date.Month() &&
 					release.Date.Accuracy > Month {
-
 					if original.Date.Accuracy == Month ||
 						release.Date.Day() < original.Date.Day() {
 						original = release

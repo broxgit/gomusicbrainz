@@ -86,7 +86,6 @@ func (c *WS2Client) LookupPlace(id MBID, inc ...string) (*Place, error) {
 // area fields. For more information visit
 // https://musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Place
 func (c *WS2Client) SearchPlace(searchTerm string, limit, offset int) (*PlaceSearchResponse, error) {
-
 	result := placeListResult{}
 	err := c.searchRequest("/place", &result, searchTerm, limit, offset)
 

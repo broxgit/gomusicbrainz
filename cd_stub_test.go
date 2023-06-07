@@ -31,7 +31,6 @@ import (
 )
 
 func TestSearchCDStub(t *testing.T) {
-
 	want := CDStubSearchResponse{
 		WS2ListResponse: WS2ListResponse{
 			Count:  1,

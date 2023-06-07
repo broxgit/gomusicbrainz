@@ -1,4 +1,4 @@
-# gomusicbrainz [![License MIT](http://img.shields.io/badge/License-MIT-lightgrey.svg?style=flat-square)](http://opensource.org/licenses/MIT) [![GoDoc](http://img.shields.io/badge/api-Godoc-blue.svg?style=flat-square)](https://godoc.org/github.com/broxgit/gomusicbrainz) [![GoWalker](http://img.shields.io/badge/api-GoWalker-green.svg?style=flat-square)](https://gowalker.org/github.com/broxgit/gomusicbrainz) [![Build Status](http://img.shields.io/travis/michiwend/gomusicbrainz.svg?style=flat-square)](https://travis-ci.org/michiwend/gomusicbrainz) 
+# gomusicbrainz [![License MIT](http://img.shields.io/badge/License-MIT-lightgrey.svg?style=flat-square)](http://opensource.org/licenses/MIT) [![GoDoc](http://img.shields.io/badge/api-Godoc-blue.svg?style=flat-square)](https://godoc.org/github.com/broxgit/gomusicbrainz) [![GoWalker](http://img.shields.io/badge/api-GoWalker-green.svg?style=flat-square)](https://gowalker.org/github.com/broxgit/gomusicbrainz) [![Build Status](http://img.shields.io/travis/michiwend/gomusicbrainz.svg?style=flat-square)](https://travis-ci.org/michiwend/gomusicbrainz)
 
 a Go (Golang) MusicBrainz WS2 client library - a work in progress.
 

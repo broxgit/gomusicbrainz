@@ -101,7 +101,6 @@ func (c *WS2Client) LookupRecording(id MBID, inc ...string) (*Recording, error) 
 // more information visit
 // http://musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Recording
 func (c *WS2Client) SearchRecording(searchTerm string, limit, offset int) (*RecordingSearchResponse, error) {
-
 	result := recordingListResult{}
 	err := c.searchRequest("/recording", &result, searchTerm, limit, offset)
 

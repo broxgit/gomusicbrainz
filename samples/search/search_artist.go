@@ -32,7 +32,6 @@ import (
 )
 
 func main() {
-
 	// create a new WS2Client.
 	client, _ := gomusicbrainz.NewWS2Client(
 		"https://musicbrainz.org/ws/2",
@@ -47,5 +46,4 @@ func main() {
 	for _, artist := range resp.Artists {
 		fmt.Printf("Name: %-25sScore: %d\n", artist.Name, resp.Scores[artist])
 	}
-
 }

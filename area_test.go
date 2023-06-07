@@ -31,7 +31,6 @@ import (
 )
 
 func TestSearchArea(t *testing.T) {
-
 	want := AreaSearchResponse{
 		WS2ListResponse: WS2ListResponse{
 			Count:  1,

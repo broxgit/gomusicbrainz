@@ -31,7 +31,6 @@ import (
 )
 
 func TestSearchReleaseGroup(t *testing.T) {
-
 	want := ReleaseGroupSearchResponse{
 		WS2ListResponse: WS2ListResponse{
 			Count:  1,
@@ -45,7 +44,7 @@ func TestSearchReleaseGroup(t *testing.T) {
 				PrimaryType: "Single",
 				ArtistCredit: ArtistCredit{
 					NameCredits: []NameCredit{
-						NameCredit{
+						{
 							Artist{
 								ID:             "a8fa58d8-f60b-4b83-be7c-aea1af11596b",
 								Name:           "Fred Giannelli",

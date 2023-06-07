@@ -32,7 +32,6 @@ import (
 )
 
 func main() {
-
 	// create a new WS2Client.
 	client, _ := gomusicbrainz.NewWS2Client(
 		"https://musicbrainz.org/ws/2",
@@ -42,7 +41,6 @@ func main() {
 
 	// Lookup artist by id.
 	artist, err := client.LookupArtist("10adbe5e-a2c0-4bf3-8249-2b4cbf6e6ca8")
-
 	if err != nil {
 		fmt.Println(err)
 		return

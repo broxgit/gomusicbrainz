@@ -139,7 +139,7 @@ type Alias struct {
 type Medium struct {
 	Format   string `xml:"format"`
 	Position int    `xml:"position"`
-	//DiscList TODO implement type
+
 	Tracks []*Track `xml:"track-list>track"`
 }
 
@@ -200,7 +200,6 @@ func (r *RelationAbstract) TypeOf() string {
 // RelationsOfTypes returns a slice of Relations for the given relTypes. For a
 // list of all possible relationships see https://musicbrainz.org/relationships
 func RelationsOfTypes(rels []Relation, relTypes ...string) []Relation {
-
 	var out []Relation
 
 	for _, rel := range rels {
@@ -236,7 +235,6 @@ type TargetRelationsMap map[string][]Relation
 // UnmarshalXML is needed to implement XMLUnmarshaler for custom, value-based
 // unmarshaling of relation-list elements.
 func (r *TargetRelationsMap) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
-
 	var targetType string
 
 	for _, v := range start.Attr {

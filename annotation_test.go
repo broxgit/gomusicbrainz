@@ -31,7 +31,6 @@ import (
 )
 
 func TestSearchAnnotation(t *testing.T) {
-
 	want := AnnotationSearchResponse{
 		WS2ListResponse: WS2ListResponse{
 			Count:  1,
@@ -70,5 +69,4 @@ func TestSearchAnnotation(t *testing.T) {
 	if !reflect.DeepEqual(*returned, want) {
 		t.Error(requestDiff(&want, returned))
 	}
-
 }

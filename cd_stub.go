@@ -52,7 +52,6 @@ type CDStub struct {
 // information visit
 // https://musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#CDStubs
 func (c *WS2Client) SearchCDStub(searchTerm string, limit, offset int) (*CDStubSearchResponse, error) {
-
 	result := cdStubListResult{}
 	err := c.searchRequest("/cdstub", &result, searchTerm, limit, offset)
 

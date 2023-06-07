@@ -32,7 +32,6 @@ import (
 )
 
 func TestSearchArtist(t *testing.T) {
-
 	want := ArtistSearchResponse{
 		WS2ListResponse: WS2ListResponse{
 			Count:  1,
@@ -108,7 +107,6 @@ func TestSearchArtist(t *testing.T) {
 }
 
 func TestLookupArtist(t *testing.T) {
-
 	want := Artist{
 		ID:             "10adbe5e-a2c0-4bf3-8249-2b4cbf6e6ca8",
 		Type:           "Group",
@@ -200,7 +198,6 @@ func TestLookupArtist(t *testing.T) {
 		"10adbe5e-a2c0-4bf3-8249-2b4cbf6e6ca8",
 		"artist-rels",
 		"release-rels")
-
 	if err != nil {
 		t.Error(err)
 	}
@@ -208,5 +205,4 @@ func TestLookupArtist(t *testing.T) {
 	if !reflect.DeepEqual(*returned, want) {
 		t.Error(requestDiff(&want, returned))
 	}
-
 }

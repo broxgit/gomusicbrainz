@@ -32,7 +32,6 @@ import (
 )
 
 func TestSearchPlace(t *testing.T) {
-
 	want := PlaceSearchResponse{
 		WS2ListResponse: WS2ListResponse{
 			Count:  1,

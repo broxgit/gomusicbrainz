@@ -85,7 +85,6 @@ func (c *WS2Client) LookupArea(id MBID, inc ...string) (*Area, error) {
 // For more information visit
 // http://musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Area
 func (c *WS2Client) SearchArea(searchTerm string, limit, offset int) (*AreaSearchResponse, error) {
-
 	result := areaListResult{}
 	err := c.searchRequest("/area", &result, searchTerm, limit, offset)
 

@@ -1,29 +1,4 @@
 /*
- * Copyright (c) 2014 Michael Wendland
- *
- * Permission is hereby granted, free of charge, to any person obtaining a
- * copy of this software and associated documentation files (the "Software"),
- * to deal in the Software without restriction, including without limitation
- * the rights to use, copy, modify, merge, publish, distribute, sublicense,
- * and/or sell copies of the Software, and to permit persons to whom the
- * Software is furnished to do so, subject to the following conditions:
- *
- * The above copyright notice and this permission notice shall be included in
- * all copies or substantial portions of the Software.
- *
- * THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
- * IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
- * FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
- * AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
- * LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING
- * FROM, OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS
- * IN THE SOFTWARE.
- *
- * 	Authors:
- * 		Michael Wendland <michael@michiwend.com>
- */
-
-/*
 Package gomusicbrainz implements a MusicBrainz WS2 client library.
 
 MusicBrainz WS2 (Version 2 of the XML Web Service) supports three different requests:
@@ -61,7 +36,7 @@ relationships. see
 http://musicbrainz.org/doc/Development/XML_Web_Service/Version_2#inc.3D_arguments_which_affect_subqueries
 Not all of them are supported yet.
 
-# Browse requets
+# Browse requests
 
 not supported yet.
 */
@@ -105,14 +80,14 @@ type WS2Client struct {
 }
 
 func (c *WS2Client) getRequest(data interface{}, params url.Values, endpoint string) error {
-
-	client := &http.Client{}
+	// client := &http.Client{}
+	retryClient := NewHttpRetry(5)
 
 	defaultRedirectLimit := 30
 
 	// Preserve headers on redirect
 	// See: https://github.com/golang/go/issues/4800
-	client.CheckRedirect = func(req *http.Request, via []*http.Request) error {
+	retryClient.Httpclient.CheckRedirect = func(req *http.Request, via []*http.Request) error {
 		if len(via) > defaultRedirectLimit {
 			return fmt.Errorf("%d consecutive requests(redirects)", len(via))
 		}
@@ -138,26 +113,18 @@ func (c *WS2Client) getRequest(data interface{}, params url.Values, endpoint str
 
 	req.Header.Set("User-Agent", c.userAgentHeader)
 
-	resp, err := client.Do(req)
+	resp, err := retryClient.Do(req)
 	if err != nil {
 		return err
 	}
 	defer resp.Body.Close()
 
-	urlStuff := req.URL.String()
-	fmt.Println(urlStuff)
-
 	xmlData, err := io.ReadAll(resp.Body)
 	if err != nil {
-		fmt.Println(xmlData)
-	}
-
-	//decoder := xml.NewDecoder(resp.Body)
-
-	if err = xml.Unmarshal(xmlData, data); err != nil {
 		return err
 	}
-	return nil
+
+	return xml.Unmarshal(xmlData, data)
 }
 
 // intParamToString returns an empty string for -1.
@@ -169,9 +136,8 @@ func intParamToString(i int) string {
 }
 
 func (c *WS2Client) searchRequest(endpoint string, result interface{}, searchTerm string, limit, offset int) error {
-
 	params := url.Values{
-		//"query":  {searchTerm},
+		// "query":  {searchTerm},
 		"limit":  {intParamToString(limit)},
 		"offset": {intParamToString(offset)},
 	}

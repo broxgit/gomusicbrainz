@@ -32,7 +32,6 @@ import (
 )
 
 func TestSearchRelease(t *testing.T) {
-
 	want := ReleaseSearchResponse{
 		WS2ListResponse: WS2ListResponse{
 			Count:  1,
@@ -49,7 +48,7 @@ func TestSearchRelease(t *testing.T) {
 				},
 				ArtistCredit: ArtistCredit{
 					NameCredits: []NameCredit{
-						NameCredit{
+						{
 							Artist{
 								ID:       "43bcca8b-9edc-4997-8343-122350e790bf",
 								Name:     "Fred Schneider",
@@ -103,4 +102,4 @@ func TestSearchRelease(t *testing.T) {
 	}
 }
 
-//TODO implement Lookup test with mediums and tracks
+
