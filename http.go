@@ -38,20 +38,21 @@ type HttpRetry struct {
 	sleep      sleep
 }
 
-func NewHttpRetry(retries int) *HttpRetry {
+func NewHttpRetry(retries int, backoff int) *HttpRetry {
 	return &HttpRetry{
 		Httpclient: &http.Client{
 			Timeout: time.Second * 30,
 		},
 		Retries: retries,
-		Backoff: 2,
+		Backoff: backoff,
 	}
 }
 
 func (h *HttpRetry) Do(req *http.Request) (*http.Response, error) {
 	var bod []byte
 	if req.Body != nil {
-		bod, err := io.ReadAll(req.Body)
+		var err error
+		bod, err = io.ReadAll(req.Body)
 		if err != nil {
 			log.Warn().Fields(map[string]interface{}{"req": req}).Msg("Unable to read body from request")
 		} else {
@@ -64,8 +65,8 @@ func (h *HttpRetry) Do(req *http.Request) (*http.Response, error) {
 		log.Debug().Fields(map[string]interface{}{"Current tries": currentTries}).Msg("Http request")
 
 		resp, err := h.Httpclient.Do(req)
-		if err != nil {
-			log.Warn().Fields(map[string]interface{}{"err": err, "retryCount": currentTries}).Msg("Http Request Error")
+		if err != nil || resp.StatusCode >= 500 {
+			log.Warn().Fields(map[string]interface{}{"err": err, "retryCount": currentTries, "responseStatusCode": resp.StatusCode, "responseStatus": resp.Status}).Msg("Http Request Error")
 			if len(bod) > 0 {
 				req.Body = io.NopCloser(bytes.NewReader(bod))
 			}

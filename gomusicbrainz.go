@@ -57,18 +57,21 @@ import (
 // NewWS2Client returns a new instance of WS2Client. Please provide meaningful
 // information about your application as described at
 // https://musicbrainz.org/doc/XML_Web_Service/Rate_Limiting#Provide_meaningful_User-Agent_strings
-func NewWS2Client(wsurl, appname, version, contact string) (*WS2Client, error) {
-	c := WS2Client{}
+func NewWS2Client(wsURL, appName, version, contact string) (*WS2Client, error) {
+	c := WS2Client{
+		Retries: 10,
+		Backoff: 2,
+	}
 	var err error
 
-	c.WS2RootURL, err = url.Parse(wsurl)
+	c.WS2RootURL, err = url.Parse(wsURL)
 	if err != nil {
 		return nil, err
 	}
 	if !strings.HasSuffix(c.WS2RootURL.Path, "ws/2") {
 		c.WS2RootURL.Path = path.Join(c.WS2RootURL.Path, "ws/2")
 	}
-	c.userAgentHeader = appname + "/" + version + " ( " + contact + " ) "
+	c.userAgentHeader = appName + "/" + version + " ( " + contact + " ) "
 
 	return &c, nil
 }
@@ -77,11 +80,12 @@ func NewWS2Client(wsurl, appname, version, contact string) (*WS2Client, error) {
 type WS2Client struct {
 	WS2RootURL      *url.URL // The API root URL
 	userAgentHeader string
+	Retries         int
+	Backoff         int
 }
 
 func (c *WS2Client) getRequest(data interface{}, params url.Values, endpoint string) error {
-	// client := &http.Client{}
-	retryClient := NewHttpRetry(5)
+	retryClient := NewHttpRetry(c.Retries, c.Backoff)
 
 	defaultRedirectLimit := 30
 
@@ -106,7 +110,7 @@ func (c *WS2Client) getRequest(data interface{}, params url.Values, endpoint str
 	reqUrl.Path = path.Join(reqUrl.Path, endpoint)
 	reqUrl.RawQuery = params.Encode()
 
-	req, err := http.NewRequest("GET", reqUrl.String(), nil)
+	req, err := http.NewRequest(http.MethodGet, reqUrl.String(), nil)
 	if err != nil {
 		return err
 	}
@@ -185,7 +189,7 @@ func encodeInc(inc []string) url.Values {
 // Label, ...)
 func (c *WS2Client) Lookup(entity MBLookupEntity, inc ...string) error {
 	if entity.Id() == "" {
-		return errors.New("can't perform lookup without ID.")
+		return errors.New("can't perform lookup without ID")
 	}
 
 	return c.getRequest(entity.lookupResult(), encodeInc(inc),
