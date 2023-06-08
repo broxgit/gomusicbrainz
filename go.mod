@@ -3,6 +3,7 @@ module github.com/broxgit/gomusicbrainz
 go 1.20
 
 require (
+	github.com/broxgit/common v0.1.0
 	github.com/michiwend/golang-pretty v0.0.0-20141116172505-8ac61812ea3f
 	github.com/rs/zerolog v1.29.1
 )

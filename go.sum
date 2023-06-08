@@ -1,3 +1,5 @@
+github.com/broxgit/common v0.1.0 h1:ZQdrJyXyUTPvPBlR006AjccMVbvkR63B+yB7Qdz9ycU=
+github.com/broxgit/common v0.1.0/go.mod h1:EemqkTWz5k6cgVZaLKxjenlMUkUP/Nhek3aLA3YBfa8=
 github.com/coreos/go-systemd/v22 v22.5.0/go.mod h1:Y58oyj3AT4RCenI/lSvhwexgC+NSVTIJ3seZv2GcEnc=
 github.com/creack/pty v1.1.9/go.mod h1:oKZEueFk5CKHvIhNR5MUki03XCEU+Q6VDXinZuGJ33E=
 github.com/godbus/dbus/v5 v5.0.4/go.mod h1:xhWf0FNVPg57R7Z0UbKHbJfkEywrmjJnf7w5xrFpKfA=

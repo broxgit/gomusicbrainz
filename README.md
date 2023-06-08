@@ -2,7 +2,7 @@
 
 a Go (Golang) MusicBrainz WS2 client library - a work in progress.
 
-![gopherbrainz Oo](https://raw.githubusercontent.com/michiwend/gomusicbrainz/master/misc/gopherbrainz.png)
+![gopherbrainz Oo](https://raw.githubusercontent.com/broxgit/gomusicbrainz/master/misc/gopherbrainz.png)
 
 ## Current state
 Currently GoMusicBrainz provides methods to perform search and lookup requests. Browse requests are not supported yet.

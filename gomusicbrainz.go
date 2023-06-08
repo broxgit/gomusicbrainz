@@ -52,6 +52,8 @@ import (
 	"path"
 	"strconv"
 	"strings"
+
+	common "github.com/broxgit/common/http"
 )
 
 // NewWS2Client returns a new instance of WS2Client. Please provide meaningful
@@ -85,13 +87,13 @@ type WS2Client struct {
 }
 
 func (c *WS2Client) getRequest(data interface{}, params url.Values, endpoint string) error {
-	retryClient := NewHttpRetry(c.Retries, c.Backoff)
+	retryClient := common.NewHTTPRetry(common.WithRetries(c.Retries), common.WithBackoff(c.Backoff))
 
 	defaultRedirectLimit := 30
 
 	// Preserve headers on redirect
 	// See: https://github.com/golang/go/issues/4800
-	retryClient.Httpclient.CheckRedirect = func(req *http.Request, via []*http.Request) error {
+	retryClient.HTTPClient.CheckRedirect = func(req *http.Request, via []*http.Request) error {
 		if len(via) > defaultRedirectLimit {
 			return fmt.Errorf("%d consecutive requests(redirects)", len(via))
 		}
