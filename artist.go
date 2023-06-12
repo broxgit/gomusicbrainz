@@ -70,9 +70,9 @@ func (c *WS2Client) LookupArtist(id MBID, inc ...string) (*Artist, error) {
 // With no fields specified searchTerm searches the artist, sortname and alias
 // fields. For more information visit
 // http://musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Artist
-func (c *WS2Client) SearchArtist(searchTerm string, limit, offset int) (*ArtistSearchResponse, error) {
+func (c *WS2Client) SearchArtist(query string, fields map[string]string, limit, offset int) (*ArtistSearchResponse, error) {
 	result := artistListResult{}
-	err := c.searchRequest("/artist", &result, searchTerm, limit, offset)
+	err := c.searchRequestAdvanced("/artist", query, fields, &result, limit, offset)
 
 	rsp := ArtistSearchResponse{}
 	rsp.WS2ListResponse = result.ArtistList.WS2ListResponse

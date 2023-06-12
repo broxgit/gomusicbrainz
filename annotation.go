@@ -21,9 +21,9 @@ type Annotation struct {
 //
 // For more information visit
 // http://musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Annotation
-func (c *WS2Client) SearchAnnotation(searchTerm string, limit, offset int) (*AnnotationSearchResponse, error) {
+func (c *WS2Client) SearchAnnotation(query string, fields map[string]string, limit, offset int) (*AnnotationSearchResponse, error) {
 	result := annotationListResult{}
-	err := c.searchRequest("/annotation", &result, searchTerm, limit, offset)
+	err := c.searchRequestAdvanced("/annotation", query, fields, &result, limit, offset)
 
 	rsp := AnnotationSearchResponse{}
 	rsp.WS2ListResponse = result.AnnotationList.WS2ListResponse

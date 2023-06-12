@@ -66,9 +66,9 @@ func (c *WS2Client) LookupReleaseGroup(id MBID, inc ...string) (*ReleaseGroup, e
 // With no fields specified searchTerm searches the releasgroup field only. For
 // more information visit
 // https://musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Release_Group
-func (c *WS2Client) SearchReleaseGroup(searchTerm string, limit, offset int) (*ReleaseGroupSearchResponse, error) {
+func (c *WS2Client) SearchReleaseGroup(query string, fields map[string]string, limit, offset int) (*ReleaseGroupSearchResponse, error) {
 	result := releaseGroupListResult{}
-	err := c.searchRequest("/release-group", &result, searchTerm, limit, offset)
+	err := c.searchRequestAdvanced("/release-group", query, fields, &result, limit, offset)
 
 	rsp := ReleaseGroupSearchResponse{}
 	rsp.WS2ListResponse = result.ReleaseGroupList.WS2ListResponse

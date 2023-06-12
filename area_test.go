@@ -35,7 +35,7 @@ func TestSearchArea(t *testing.T) {
 	defer server.Close()
 	serveTestFile("/area", "SearchArea.xml", t)
 
-	returned, err := client.SearchArea(`"Île-de-France"`, -1, -1)
+	returned, err := client.SearchArea(`"Île-de-France"`, nil, -1, -1)
 	if err != nil {
 		t.Error(err)
 	}

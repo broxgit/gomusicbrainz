@@ -44,7 +44,7 @@ func TestSearchPlace(t *testing.T) {
 	defer server.Close()
 	serveTestFile("/place", "SearchPlace.xml", t)
 
-	returned, err := client.SearchPlace("chipping", -1, -1)
+	returned, err := client.SearchPlace("chipping", nil, -1, -1)
 	if err != nil {
 		t.Error(err)
 	}

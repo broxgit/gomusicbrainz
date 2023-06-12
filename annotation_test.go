@@ -32,7 +32,7 @@ func TestSearchAnnotation(t *testing.T) {
 	defer server.Close()
 	serveTestFile("/annotation", "SearchAnnotation.xml", t)
 
-	returned, err := client.SearchAnnotation("Pieds nus sur la braise", -1, -1)
+	returned, err := client.SearchAnnotation("Pieds nus sur la braise", nil, -1, -1)
 	if err != nil {
 		t.Error(err)
 	}

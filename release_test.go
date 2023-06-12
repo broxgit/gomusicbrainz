@@ -63,7 +63,7 @@ func TestSearchRelease(t *testing.T) {
 	defer server.Close()
 	serveTestFile("/release", "SearchRelease.xml", t)
 
-	returned, err := client.SearchRelease("Fred", -1, -1)
+	returned, err := client.SearchRelease("Fred", nil, -1, -1)
 	if err != nil {
 		t.Error(err)
 	}

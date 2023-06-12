@@ -75,9 +75,9 @@ func (c *WS2Client) LookupRecording(id MBID, inc ...string) (*Recording, error) 
 // With no fields specified searchTerm searches the recording field only. For
 // more information visit
 // http://musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Recording
-func (c *WS2Client) SearchRecording(searchTerm string, limit, offset int) (*RecordingSearchResponse, error) {
+func (c *WS2Client) SearchRecording(query string, fields map[string]string, limit, offset int) (*RecordingSearchResponse, error) {
 	result := recordingListResult{}
-	err := c.searchRequest("/recording", &result, searchTerm, limit, offset)
+	err := c.searchRequestAdvanced("/recording", query, fields, &result, limit, offset)
 
 	rsp := RecordingSearchResponse{}
 	rsp.WS2ListResponse = result.RecordingList.WS2ListResponse

@@ -31,7 +31,7 @@ func TestSearchCDStub(t *testing.T) {
 	defer server.Close()
 	serveTestFile("/cdstub", "SearchCDStub.xml", t)
 
-	returned, err := client.SearchCDStub(`bonobo`, -1, -1)
+	returned, err := client.SearchCDStub(`bonobo`, nil, -1, -1)
 	if err != nil {
 		t.Error(err)
 	}

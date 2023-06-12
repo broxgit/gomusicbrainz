@@ -35,7 +35,7 @@ func TestSearchRecording(t *testing.T) {
 	defer server.Close()
 	serveTestFile("/recording", "SearchRecording.xml", t)
 
-	returned, err := client.SearchRecording("Fred", -1, -1)
+	returned, err := client.SearchRecording("Fred", nil, -1, -1)
 	if err != nil {
 		t.Error(err)
 	}

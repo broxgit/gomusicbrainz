@@ -86,7 +86,7 @@ type WS2Client struct {
 	Backoff         int
 }
 
-func (c *WS2Client) getRequest(data interface{}, params url.Values, endpoint string) error {
+func (c *WS2Client) getRequest(data interface{}, params string, endpoint string) error {
 	retryClient := common.NewHTTPRetry(common.WithRetries(c.Retries), common.WithBackoff(c.Backoff))
 
 	defaultRedirectLimit := 30
@@ -110,9 +110,11 @@ func (c *WS2Client) getRequest(data interface{}, params url.Values, endpoint str
 
 	reqUrl := *c.WS2RootURL
 	reqUrl.Path = path.Join(reqUrl.Path, endpoint)
-	reqUrl.RawQuery = params.Encode()
+	reqUrl.RawQuery = params
 
-	req, err := http.NewRequest(http.MethodGet, reqUrl.String(), nil)
+	fullURL := reqUrl.String()
+
+	req, err := http.NewRequest(http.MethodGet, fullURL, nil)
 	if err != nil {
 		return err
 	}
@@ -143,35 +145,38 @@ func intParamToString(i int) string {
 
 func (c *WS2Client) searchRequest(endpoint string, result interface{}, searchTerm string, limit, offset int) error {
 	params := url.Values{
-		// "query":  {searchTerm},
+		"query":  {searchTerm},
 		"limit":  {intParamToString(limit)},
 		"offset": {intParamToString(offset)},
 	}
 
-	searchParts := strings.Split(searchTerm, "&")
-
-	paramsExist := false
-
-outer:
-	for _, p := range searchParts {
-		tokens := []string{"=", ":"}
-		for _, t := range tokens {
-			if strings.Contains(p, t) {
-				paramParts := strings.Split(p, t)
-				if len(paramParts) == 2 {
-					paramsExist = true
-					params.Add(paramParts[0], paramParts[1])
-					continue outer
-				}
-			}
-		}
+	if err := c.getRequest(result, params.Encode(), endpoint); err != nil {
+		return err
 	}
 
-	if !paramsExist {
-		params.Add("query", searchTerm)
+	return nil
+}
+
+// searchRequestAdvanced.
+func (c *WS2Client) searchRequestAdvanced(endpoint string, query string, fields map[string]string, result interface{}, limit, offset int) error {
+	params := url.Values{
+		"limit":  {intParamToString(limit)},
+		"offset": {intParamToString(offset)},
 	}
 
-	if err := c.getRequest(result, params, endpoint); err != nil {
+	var sb strings.Builder
+
+	if strings.TrimSpace(query) != "" {
+		sb.WriteString(fmt.Sprintf("query=%s", url.QueryEscape(query)))
+	}
+
+	for k, v := range fields {
+		sb.WriteString(fmt.Sprintf("&%s=%s", k, url.QueryEscape(v)))
+	}
+
+	sb.WriteString(fmt.Sprintf("&%s", params.Encode()))
+
+	if err := c.getRequest(result, sb.String(), endpoint); err != nil {
 		return err
 	}
 
@@ -194,7 +199,7 @@ func (c *WS2Client) Lookup(entity MBLookupEntity, inc ...string) error {
 		return errors.New("can't perform lookup without ID")
 	}
 
-	return c.getRequest(entity.lookupResult(), encodeInc(inc),
+	return c.getRequest(entity.lookupResult(), encodeInc(inc).Encode(),
 		path.Join(
 			entity.apiEndpoint(),
 			string(entity.Id()),

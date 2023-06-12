@@ -59,9 +59,9 @@ func (c *WS2Client) LookupArea(id MBID, inc ...string) (*Area, error) {
 // With no fields specified searchTerm searches the area and sortname fields.
 // For more information visit
 // http://musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Area
-func (c *WS2Client) SearchArea(searchTerm string, limit, offset int) (*AreaSearchResponse, error) {
+func (c *WS2Client) SearchArea(query string, fields map[string]string, limit, offset int) (*AreaSearchResponse, error) {
 	result := areaListResult{}
-	err := c.searchRequest("/area", &result, searchTerm, limit, offset)
+	err := c.searchRequestAdvanced("/area", query, fields, &result, limit, offset)
 
 	rsp := AreaSearchResponse{}
 	rsp.WS2ListResponse = result.AreaList.WS2ListResponse

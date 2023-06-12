@@ -1,9 +1,8 @@
 package main
 
 import (
-	"github.com/rs/zerolog/log"
-
 	"github.com/broxgit/gomusicbrainz"
+	"github.com/rs/zerolog/log"
 )
 
 func main() {

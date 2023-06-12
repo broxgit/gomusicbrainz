@@ -1,6 +1,8 @@
 package gomusicbrainz
 
-import "encoding/xml"
+import (
+	"encoding/xml"
+)
 
 // Release represents a unique release (i.e. issuing) of a product on a
 // specific date with specific release information such as the country, label,
@@ -87,9 +89,9 @@ func (c *WS2Client) LookupRelease(id MBID, inc ...string) (*Release, error) {
 // With no fields specified searchTerm searches the release field only. For
 // more information visit
 // https://musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Release
-func (c *WS2Client) SearchRelease(searchTerm string, limit, offset int) (*ReleaseSearchResponse, error) {
+func (c *WS2Client) SearchRelease(searchTerm string, fields map[string]string, limit, offset int) (*ReleaseSearchResponse, error) {
 	result := releaseListResult{}
-	err := c.searchRequest("/release", &result, searchTerm, limit, offset)
+	err := c.searchRequestAdvanced("/release", searchTerm, fields, &result, limit, offset)
 
 	rsp := ReleaseSearchResponse{}
 	rsp.WS2ListResponse = result.ReleaseList.WS2ListResponse

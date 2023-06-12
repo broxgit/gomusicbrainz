@@ -72,9 +72,9 @@ func (c *WS2Client) LookupLabel(id MBID, inc ...string) (*Label, error) {
 // With no fields specified searchTerm searches the label, sortname and alias
 // fields. For more information visit
 // https://musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#Label
-func (c *WS2Client) SearchLabel(searchTerm string, limit, offset int) (*LabelSearchResponse, error) {
+func (c *WS2Client) SearchLabel(query string, fields map[string]string, limit, offset int) (*LabelSearchResponse, error) {
 	result := labelListResult{}
-	err := c.searchRequest("/label", &result, searchTerm, limit, offset)
+	err := c.searchRequestAdvanced("/label", query, fields, &result, limit, offset)
 
 	rsp := LabelSearchResponse{}
 	rsp.WS2ListResponse = result.LabelList.WS2ListResponse

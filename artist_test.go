@@ -67,7 +67,7 @@ func TestSearchArtist(t *testing.T) {
 	defer server.Close()
 	serveTestFile("/artist", "SearchArtist.xml", t)
 
-	returned, err := client.SearchArtist("Gopher", -1, -1)
+	returned, err := client.SearchArtist("Gopher", nil, -1, -1)
 	if err != nil {
 		t.Error(err)
 	}

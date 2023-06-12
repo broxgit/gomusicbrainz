@@ -14,7 +14,7 @@ func main() {
 		"http://github.com/broxgit/gomusicbrainz")
 
 	// Search for some artist(s)
-	resp, _ := client.SearchArtist(`artist:"Parov Stelar"`, -1, -1)
+	resp, _ := client.SearchArtist(`"Parov Stelar"`, nil, -1, -1)
 
 	// Pretty print Name and score of each returned artist.
 	for _, artist := range resp.Artists {

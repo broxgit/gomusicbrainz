@@ -62,8 +62,10 @@ type BrainzTime struct {
 
 func (t *BrainzTime) UnmarshalXML(d *xml.Decoder, start xml.StartElement) error {
 	var v string
-	var err error
-	d.DecodeElement(&v, &start)
+	err := d.DecodeElement(&v, &start)
+	if err != nil {
+		return err
+	}
 
 	if v != "" {
 		switch strings.Count(v, "-") {

@@ -26,9 +26,9 @@ type CDStub struct {
 // With no fields specified searchTerm searches only the artist Field. For more
 // information visit
 // https://musicbrainz.org/doc/Development/XML_Web_Service/Version_2/Search#CDStubs
-func (c *WS2Client) SearchCDStub(searchTerm string, limit, offset int) (*CDStubSearchResponse, error) {
+func (c *WS2Client) SearchCDStub(query string, fields map[string]string, limit, offset int) (*CDStubSearchResponse, error) {
 	result := cdStubListResult{}
-	err := c.searchRequest("/cdstub", &result, searchTerm, limit, offset)
+	err := c.searchRequestAdvanced("/cdstub", query, fields, &result, limit, offset)
 
 	rsp := CDStubSearchResponse{}
 	rsp.WS2ListResponse = result.CDStubList.WS2ListResponse

@@ -53,7 +53,7 @@ func TestSearchReleaseGroup(t *testing.T) {
 	defer server.Close()
 	serveTestFile("/release-group", "SearchReleaseGroup.xml", t)
 
-	returned, err := client.SearchReleaseGroup("Tenance", -1, -1)
+	returned, err := client.SearchReleaseGroup("Tenance", nil, -1, -1)
 	if err != nil {
 		t.Error(err)
 	}

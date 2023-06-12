@@ -49,7 +49,7 @@ func TestSearchLabel(t *testing.T) {
 	defer server.Close()
 	serveTestFile("/label", "SearchLabel.xml", t)
 
-	returned, err := client.SearchLabel(`label:"Compost%20Records"`, -1, -1)
+	returned, err := client.SearchLabel(`label:"Compost%20Records"`, nil, -1, -1)
 	if err != nil {
 		t.Error(err)
 	}
